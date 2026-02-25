@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(STAFF)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+model Product {
+  id          String     @id @default(cuid())
+  name        String
+  category    Category
+  price       Float
+  isAvailable Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  billItems   BillItem[]
+}
+
+enum Category {
+  TEA
+  SNACKS
+  MEALS
+  DRINKS
+}
+
+model Bill {
+  id            String         @id @default(cuid())
+  totalAmount   Float
+  paymentMethod PaymentMethod
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  items         BillItem[]
+}
+
+enum PaymentMethod {
+  CASH
+  UPI
+  CARD
+}
+
+model BillItem {
+  id        String   @id @default(cuid())
+  billId    String
+  productId String
+  quantity  Int
+  price     Float    // Store price at the time of purchase
+
+  bill      Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([billId])
+  @@index([productId])
+}
