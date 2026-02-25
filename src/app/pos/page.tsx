@@ -56,7 +56,7 @@ export default function POSPage() {
         } catch { alert("Connection Error"); }
     };
 
-    if (loading) return <div className="text-white text-3xl font-black w-full h-[60vh] flex items-center justify-center animate-pulse drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">INITIALIZING AEROSYNC TERMINAL...</div>;
+    if (loading) return <div className="text-white text-3xl font-black w-full h-[60vh] flex items-center justify-center animate-pulse drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">INITIALIZING SATHAM HUSSAIN-AEROSYNC TERMINAL...</div>;
 
     return (
         <div className="flex gap-8 h-full">
@@ -207,7 +207,7 @@ export default function POSPage() {
                                     ],
                                     merchantInfo: {
                                         merchantId: '12345678901234567890',
-                                        merchantName: 'AeroSync POS',
+                                        merchantName: 'SATHAM HUSSAIN-AeroSync POS',
                                     },
                                     transactionInfo: {
                                         totalPriceStatus: 'FINAL',
@@ -262,7 +262,7 @@ export default function POSPage() {
 
                         <div className="bg-white p-4 rounded-2xl shadow-inner mb-8 ring-4 ring-indigo-500/20">
                             <QRCodeSVG
-                                value={`upi://pay?pa=restaurant@upi&pn=AeroSyncPOS&am=${total.toFixed(2)}&cu=INR`}
+                                value={`upi://pay?pa=restaurant@upi&pn=SATHAM HUSSAIN-AeroSyncPOS&am=${total.toFixed(2)}&cu=INR`}
                                 size={220}
                                 bgColor={"#ffffff"}
                                 fgColor={"#0f172a"}

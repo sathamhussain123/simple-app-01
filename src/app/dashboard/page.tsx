@@ -23,7 +23,7 @@ export default function Dashboard() {
         const doc = new jsPDF();
 
         doc.setFontSize(22);
-        doc.text("AEROSYNC POS", 105, 20, { align: "center" });
+        doc.text("SATHAM HUSSAIN-AEROSYNC POS", 105, 20, { align: "center" });
         doc.setFontSize(10);
         doc.setTextColor(100);
         doc.text("Analytics Executive Summary", 105, 28, { align: "center" });
@@ -54,7 +54,7 @@ export default function Dashboard() {
         doc.setFont("helvetica", "bold");
         doc.text(`${data?.topItem?.name || "N/A"} (${data?.topItem?.quantitySold || 0} units)`, 70, 105);
 
-        doc.save(`AeroSync_Analytics_${reportType}_${new Date().getTime()}.pdf`);
+        doc.save(`SATHAM HUSSAIN-AeroSync_Analytics_${reportType}_${new Date().getTime()}.pdf`);
     };
 
     return (

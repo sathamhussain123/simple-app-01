@@ -44,7 +44,7 @@ export default function LoginPage() {
                     </div>
                     <div className="text-center animate-in slide-in-from-bottom-2 duration-500">
                         <h1 className="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-tight">
-                            AeroSync <span className="text-indigo-400 px-1 opacity-90 rounded">Core</span>
+                            SATHAM HUSSAIN-AeroSync <span className="text-indigo-400 px-1 opacity-90 rounded">Core</span>
                         </h1>
                         <p className="text-slate-500 text-sm font-medium tracking-wide mt-2">Identify yourself to proceed.</p>
                     </div>
