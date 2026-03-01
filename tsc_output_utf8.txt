@@ -1,0 +1,1 @@
+﻿src/app/api/products/route.ts(15,36): error TS2322: Type 'string' is not assignable to type 'Category | EnumCategoryFilter<"Product"> | undefined'.

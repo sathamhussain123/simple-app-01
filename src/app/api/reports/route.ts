@@ -36,9 +36,9 @@ export async function GET(request: Request) {
         // Aggregating top items
         const productCounts: Record<string, number> = {};
 
-        bills.forEach(bill => {
+        bills.forEach((bill: any) => {
             totalSales += bill.totalAmount;
-            bill.items.forEach(item => {
+            bill.items.forEach((item: any) => {
                 productCounts[item.productId] = (productCounts[item.productId] || 0) + item.quantity;
             });
         });
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
         // Determine top selling item ID
         let topItem = null;
         if (Object.keys(productCounts).length > 0) {
-            const topProductId = Object.keys(productCounts).reduce((a, b) => productCounts[a] > productCounts[b] ? a : b);
+            const topProductId = Object.keys(productCounts).reduce((a: string, b: string) => productCounts[a] > productCounts[b] ? a : b);
             topItem = await prisma.product.findUnique({ where: { id: topProductId } });
         }
 

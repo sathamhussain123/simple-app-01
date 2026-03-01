@@ -11,7 +11,7 @@ export default function Dashboard() {
         setLoading(true);
         fetch(`/api/reports?range=${reportType}`)
             .then((res) => res.json())
-            .then((d) => {
+            .then((d: any) => {
                 setData(d.summary);
                 setLoading(false);
             });
@@ -58,23 +58,23 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="h-[90vh] flex flex-col relative z-10 w-full max-w-6xl mx-auto space-y-10">
-            <header className="flex justify-between items-end border-b border-slate-800 pb-6">
+        <div className="min-h-screen lg:h-[90vh] flex flex-col relative z-10 w-full max-w-6xl mx-auto space-y-10 px-4 sm:px-0 pb-12">
+            <header className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-800 pb-6 gap-6">
                 <div>
-                    <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-400 drop-shadow-lg tracking-tight">Intelligence Node</h1>
+                    <h1 className="text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-400 drop-shadow-lg tracking-tight">Intelligence Node</h1>
                     <p className="text-slate-500 font-medium tracking-wide mt-2">Realtime financial ledger & analytics.</p>
                 </div>
                 <button
                     onClick={downloadAnalytics}
                     disabled={loading || !data}
-                    className="px-6 py-3 rounded-xl font-bold tracking-wide transition-all border bg-indigo-600/20 text-indigo-400 border-indigo-500/30 hover:bg-indigo-600 hover:text-white disabled:opacity-50 flex items-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold tracking-wide transition-all border bg-indigo-600/20 text-indigo-400 border-indigo-500/30 hover:bg-indigo-600 hover:text-white disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                     <span className="text-lg">📄</span> Download Report
                 </button>
             </header>
 
             {/* Tabs */}
-            <div className="flex gap-4 p-2 bg-slate-900/40 w-fit rounded-2xl backdrop-blur-xl border border-slate-800/60 shadow-inner">
+            <div className="flex flex-wrap gap-2 sm:gap-4 p-2 bg-slate-900/40 w-full sm:w-fit rounded-2xl backdrop-blur-xl border border-slate-800/60 shadow-inner">
                 {["daily", "weekly", "monthly", "yearly"].map((type) => (
                     <button
                         key={type}

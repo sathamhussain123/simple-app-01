@@ -17,25 +17,25 @@ export default function POSPage() {
     useEffect(() => {
         fetch("/api/products")
             .then((res) => res.json())
-            .then((data) => {
+            .then((data: Product[]) => {
                 setProducts(data.filter((p: Product) => p.isAvailable));
                 setLoading(false);
             });
     }, []);
 
     const addToCart = (product: Product) => {
-        setCart((prev) => {
-            const existing = prev.find((item) => item.id === product.id);
-            if (existing) return prev.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+        setCart((prev: CartItem[]) => {
+            const existing = prev.find((item: CartItem) => item.id === product.id);
+            if (existing) return prev.map((item: CartItem) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
             return [...prev, { ...product, quantity: 1 }];
         });
     };
 
     const updateQuantity = (id: string, delta: number) => {
-        setCart((prev) => prev.map((item) => item.id === id ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0));
+        setCart((prev: CartItem[]) => prev.map((item: CartItem) => item.id === id ? { ...item, quantity: item.quantity + delta } : item).filter((item: CartItem) => item.quantity > 0));
     };
 
-    const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const subtotal = cart.reduce((acc: number, item: CartItem) => acc + item.price * item.quantity, 0);
     const total = subtotal + (subtotal * gst) / 100;
 
     const generateBill = async () => {
@@ -44,7 +44,7 @@ export default function POSPage() {
             const res = await fetch("/api/bills", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items: cart.map((c) => ({ productId: c.id, quantity: c.quantity, price: c.price })), paymentMethod, totalAmount: total }),
+                body: JSON.stringify({ items: cart.map((c: CartItem) => ({ productId: c.id, quantity: c.quantity, price: c.price })), paymentMethod, totalAmount: total }),
             });
             if (res.ok) {
                 alert("✨ Bill successfully generated! Sparkles flying out of printer!");
@@ -59,19 +59,19 @@ export default function POSPage() {
     if (loading) return <div className="text-white text-3xl font-black w-full h-[60vh] flex items-center justify-center animate-pulse drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">INITIALIZING SATHAM HUSSAIN-AEROSYNC TERMINAL...</div>;
 
     return (
-        <div className="flex gap-8 h-full">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 h-full">
 
             {/* Grid of Items */}
-            <div className="flex-1 flex flex-col h-[90vh]">
-                <header className="mb-6 flex justify-between items-end border-b border-indigo-500/20 pb-4">
+            <div className="flex-1 flex flex-col h-auto lg:h-[90vh]">
+                <header className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-indigo-500/20 pb-4 gap-4">
                     <div>
-                        <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-300 drop-shadow-md">Active Menu Registry</h2>
-                        <p className="text-slate-500 font-medium tracking-wide">Touch products to insert immediately.</p>
+                        <h2 className="text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-300 drop-shadow-md tracking-tight">Menu Registry</h2>
+                        <p className="text-slate-500 font-medium tracking-wide text-sm lg:text-base">Touch products to insert immediately.</p>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-3 xl:grid-cols-4 gap-6 overflow-auto pb-10 custom-scrollbar pr-4">
-                    {products.map((p) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6 overflow-auto pb-10 custom-scrollbar lg:pr-4">
+                    {products.map((p: Product) => (
                         <button
                             key={p.id}
                             onClick={() => addToCart(p)}
@@ -90,7 +90,7 @@ export default function POSPage() {
             </div>
 
             {/* Cart Container */}
-            <div className="w-[440px] glass-panel rounded-3xl p-8 flex flex-col shadow-2xl relative overflow-hidden ring-1 ring-white/10 h-[90vh]">
+            <div className="w-full lg:w-[400px] xl:w-[440px] glass-panel rounded-3xl p-6 lg:p-8 flex flex-col shadow-2xl relative overflow-hidden ring-1 ring-white/10 h-auto lg:h-[90vh] min-h-[500px]">
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-600/20 rounded-full blur-[40px] pointer-events-none" />
 
                 <div className="flex justify-between items-center mb-6 z-10">
@@ -137,7 +137,7 @@ export default function POSPage() {
                         <input
                             type="number"
                             value={gst}
-                            onChange={(e) => setGst(Number(e.target.value))}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGst(Number(e.target.value))}
                             className="w-16 bg-slate-900 border border-slate-700 text-right p-1 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded shadow-inner"
                             min="0"
                         />
@@ -217,7 +217,7 @@ export default function POSPage() {
                                         countryCode: 'IN',
                                     },
                                 }}
-                                onLoadPaymentData={paymentRequest => {
+                                onLoadPaymentData={(paymentRequest: any) => {
                                     console.log('load payment data', paymentRequest);
                                     generateBill();
                                 }}

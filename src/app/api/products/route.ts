@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const category = searchParams.get("category");
 
-        let queryOptions: any = {
+        let queryOptions: Prisma.ProductFindManyArgs = {
             orderBy: { name: "asc" },
         };
 
         if (category) {
-            queryOptions.where = { category: category };
+            queryOptions.where = { category: category as any };
         }
 
         const products = await prisma.product.findMany(queryOptions);
@@ -40,6 +41,16 @@ export async function POST(request: Request) {
                 isAvailable: isAvailable ?? true,
             },
         });
+        let query: Prisma.BillFindManyArgs = {
+            include: {
+                items: {
+                    include: {
+                        product: true
+                    }
+                }
+            },
+            orderBy: { createdAt: "desc" }
+        };
 
         return NextResponse.json(newProduct, { status: 201 });
     } catch (error) {

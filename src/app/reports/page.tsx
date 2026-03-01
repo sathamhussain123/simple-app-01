@@ -34,7 +34,7 @@ export default function ReportsPage() {
             });
     }, [date]);
 
-    const totalRevenue = bills.reduce((acc, b) => acc + b.totalAmount, 0);
+    const totalRevenue = bills.reduce((acc: number, b: Bill) => acc + b.totalAmount, 0);
 
     const downloadPDF = (bill: Bill) => {
         const doc = new jsPDF();
@@ -56,7 +56,7 @@ export default function ReportsPage() {
         const tax = bill.totalAmount - subtotal;
 
         const tableColumn = ["Asset", "Qty", "Unit Price", "Total"];
-        const tableRows = bill.items.map(item => [
+        const tableRows = bill.items.map((item: BillItem) => [
             item.product.name,
             item.quantity.toString(),
             `Rs. ${item.price.toFixed(2)}`,
@@ -85,34 +85,34 @@ export default function ReportsPage() {
     };
 
     return (
-        <div className="h-[90vh] flex flex-col relative z-10 w-full max-w-7xl mx-auto space-y-8">
+        <div className="min-h-screen lg:h-[90vh] flex flex-col relative z-10 w-full max-w-7xl mx-auto space-y-8 px-4 sm:px-0 pb-12">
             {/* Header */}
-            <header className="flex justify-between items-end border-b border-slate-800 pb-6 glass-panel rounded-t-3xl p-8 border-b-0 relative overflow-hidden">
+            <header className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-800 pb-6 glass-panel rounded-t-3xl p-6 lg:p-8 border-b-0 relative overflow-hidden gap-6">
                 <div className="absolute top-0 right-0 w-[500px] h-3 bg-gradient-to-r from-transparent via-indigo-500 to-indigo-400 rotate-2 opacity-50 blur-[5px]" />
                 <div>
-                    <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-400 drop-shadow-lg tracking-tight">Ledger Archives</h1>
-                    <p className="text-slate-500 font-medium tracking-wide mt-2">Historical transaction logs and itemized receipts.</p>
+                    <h1 className="text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-indigo-400 drop-shadow-lg tracking-tight">Ledger Archives</h1>
+                    <p className="text-slate-500 font-medium tracking-wide mt-2 text-sm lg:text-base">Historical transaction logs and itemized receipts.</p>
                 </div>
 
-                <div className="flex flex-col items-end gap-2">
+                <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-center shadow-inner">Target Date</label>
                     <input
                         type="date"
                         value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className="bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-100 font-mono font-bold hover:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
+                        className="w-full sm:w-auto bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-100 font-mono font-bold hover:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]"
                     />
                 </div>
             </header>
 
             {/* Summary Stats */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                 <div className="glass-panel p-6 rounded-3xl border border-sky-500/20 shadow-lg flex justify-between items-center group hover:border-sky-500/40 transition duration-300">
                     <div>
                         <span className="text-sky-400/80 font-bold uppercase tracking-widest text-sm block mb-1">Registers Filtered</span>
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-sky-100 to-sky-400">{bills.length}</span>
+                        <span className="text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-sky-100 to-sky-400">{bills.length}</span>
                     </div>
-                    <div className="h-16 w-16 bg-sky-500/10 rounded-full flex items-center justify-center border border-sky-500/20 group-hover:scale-110 group-hover:rotate-12 transition duration-500">
+                    <div className="h-14 lg:h-16 w-14 lg:w-16 bg-sky-500/10 rounded-full flex items-center justify-center border border-sky-500/20 group-hover:scale-110 group-hover:rotate-12 transition duration-500">
                         📄
                     </div>
                 </div>
@@ -120,9 +120,9 @@ export default function ReportsPage() {
                     <div className="absolute right-0 bottom-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-[30px]" />
                     <div className="relative z-10">
                         <span className="text-emerald-400/80 font-bold uppercase tracking-widest text-sm block mb-1">Gross Yield</span>
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-100 to-emerald-400">₹{totalRevenue.toFixed(2)}</span>
+                        <span className="text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-100 to-emerald-400">₹{totalRevenue.toFixed(2)}</span>
                     </div>
-                    <div className="h-16 w-16 rounded-full flex items-center justify-center text-3xl z-10 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] transition duration-500">
+                    <div className="h-14 lg:h-16 w-14 lg:w-16 rounded-full flex items-center justify-center text-2xl lg:text-3xl z-10 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] transition duration-500">
                         💎
                     </div>
                 </div>
@@ -137,7 +137,8 @@ export default function ReportsPage() {
                 </div>
             ) : (
                 <div className="glass-panel flex-1 rounded-3xl overflow-hidden flex flex-col shadow-2xl relative border border-white/5">
-                    <div className="h-14 px-8 grid grid-cols-12 gap-4 bg-slate-900/90 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 items-center sticky top-0 z-20 backdrop-blur-xl">
+                    {/* Header - Desktop only */}
+                    <div className="hidden md:grid h-14 px-8 grid-cols-12 gap-4 bg-slate-900/90 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 items-center sticky top-0 z-20 backdrop-blur-xl">
                         <div className="col-span-3">Registry ID</div>
                         <div className="col-span-3">Timestamp</div>
                         <div className="col-span-2">Protocol</div>
@@ -145,34 +146,46 @@ export default function ReportsPage() {
                         <div className="col-span-2 text-center">Status</div>
                     </div>
 
-                    <div className="overflow-auto custom-scrollbar flex-1 p-4 space-y-2 relative">
+                    <div className="overflow-auto custom-scrollbar flex-1 p-4 space-y-4 md:space-y-2 relative">
                         {bills.length === 0 ? (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 font-mono text-sm opacity-50">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 font-mono text-sm opacity-50 px-4 text-center">
                                 <span className="text-4xl mb-4">📭</span>
                                 NO TRANSACTIONS LOCATED FOR {date}
                             </div>
                         ) : (
-                            bills.map((bill) => (
+                            bills.map((bill: Bill) => (
                                 <div key={bill.id} className="bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-md overflow-hidden transition-all hover:border-slate-700">
                                     <div
                                         onClick={() => setExpandedBill(expandedBill === bill.id ? null : bill.id)}
-                                        className="p-5 grid grid-cols-12 gap-4 items-center cursor-pointer group"
+                                        className="p-4 md:p-5 flex flex-col md:grid md:grid-cols-12 gap-4 items-start md:items-center cursor-pointer group"
                                     >
-                                        <div className="col-span-3 font-mono text-indigo-300 text-sm tracking-wide">#{bill.id.slice(-8).toUpperCase()}</div>
-                                        <div className="col-span-3 text-slate-300 font-medium">
-                                            {new Date(bill.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                        <div className="md:col-span-3 font-mono text-indigo-300 text-sm tracking-wide bg-indigo-500/10 md:bg-transparent px-2 py-0.5 md:p-0 rounded border border-indigo-500/20 md:border-none uppercase">#{bill.id.slice(-8).toUpperCase()}</div>
+
+                                        <div className="md:col-span-3 flex md:block items-center justify-between w-full">
+                                            <span className="md:hidden text-xs font-bold text-slate-500 uppercase">Timestamp</span>
+                                            <div className="text-slate-300 font-medium font-mono text-sm md:text-base">
+                                                {new Date(bill.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                            </div>
                                         </div>
-                                        <div className="col-span-2">
-                                            <span className={`px-3 py-1 bg-slate-800 text-xs font-bold rounded shadow-inner border border-slate-700
-                             ${bill.paymentMethod === 'UPI' ? 'text-sky-400' : bill.paymentMethod === 'CARD' ? 'text-purple-400' : 'text-emerald-400'}  
-                           `}>
+
+                                        <div className="md:col-span-2 flex md:block items-center justify-between w-full">
+                                            <span className="md:hidden text-xs font-bold text-slate-500 uppercase">Method</span>
+                                            <span className={`px-3 py-1 bg-slate-800 text-[10px] lg:text-xs font-bold rounded shadow-inner border border-slate-700
+                                                ${bill.paymentMethod === 'UPI' ? 'text-sky-400' : bill.paymentMethod === 'CARD' ? 'text-purple-400' : 'text-emerald-400'}  
+                                            `}>
                                                 {bill.paymentMethod}
                                             </span>
                                         </div>
-                                        <div className="col-span-2 text-right pr-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-100 to-emerald-400 font-black text-xl font-mono">
-                                            ₹{bill.totalAmount.toFixed(2)}
+
+                                        <div className="md:col-span-2 flex md:block items-center justify-between w-full md:text-right md:pr-4">
+                                            <span className="md:hidden text-xs font-bold text-slate-500 uppercase">Amount</span>
+                                            <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-100 to-emerald-400 font-black text-xl lg:text-2xl font-mono">
+                                                ₹{bill.totalAmount.toFixed(2)}
+                                            </div>
                                         </div>
-                                        <div className="col-span-2 flex justify-center text-slate-500 group-hover:text-white transition">
+
+                                        <div className="md:col-span-2 flex items-center justify-between w-full md:justify-center mt-2 md:mt-0 pt-2 md:pt-0 border-t border-slate-800 md:border-none">
+                                            <span className="md:hidden text-xs font-bold text-indigo-400/60 uppercase">Tap for details</span>
                                             <button className={`w-8 h-8 rounded bg-slate-800 flex items-center justify-center transition ${expandedBill === bill.id ? 'rotate-180 bg-indigo-600/20 text-indigo-400' : ''}`}>▼</button>
                                         </div>
                                     </div>
@@ -183,14 +196,14 @@ export default function ReportsPage() {
                                             <div className="flex justify-between items-center mb-4 border-b border-slate-900 pb-2">
                                                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0">Itemized Receipt Overview</h4>
                                                 <button
-                                                    onClick={(e) => { e.stopPropagation(); downloadPDF(bill); }}
+                                                    onClick={(e: React.MouseEvent) => { e.stopPropagation(); downloadPDF(bill); }}
                                                     className="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-400 hover:text-white border border-indigo-500/30 rounded-lg text-xs font-bold transition flex items-center gap-2"
                                                 >
                                                     <span className="text-base">📄</span> Download PDF
                                                 </button>
                                             </div>
                                             <div className="space-y-3">
-                                                {bill.items.map((item) => (
+                                                {bill.items.map((item: BillItem) => (
                                                     <div key={item.id} className="flex justify-between items-end border-b border-slate-900 pb-2 border-dashed">
                                                         <div>
                                                             <div className="font-bold text-slate-200">{item.product.name}</div>
